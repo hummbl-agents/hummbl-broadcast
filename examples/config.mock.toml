@@ -1,0 +1,28 @@
+# Mock config — runs end-to-end with no API key, no network.
+# Use this for local dev and CI.
+
+# Top-level keys (declared BEFORE any [section] so they land on root)
+brand_overlay_path = ""
+prompts_path = "examples/prompts.jsonl"
+receipts_path = "receipts.mock.jsonl"
+dry_run = true
+
+[adapter]
+name = "mock"
+poll_interval_seconds = 0.5
+request_timeout_seconds = 5.0
+
+[cost]
+max_cost_per_hour_usd = 100.0
+max_cost_per_day_usd = 1000.0
+max_inflight_tasks = 5
+
+[buffer]
+min_buffer_seconds = 10.0
+target_buffer_seconds = 20.0
+clip_reuse_max = 3
+
+[publisher]
+mode = "file"
+output_dir = "/tmp/hummbl-broadcast-mock"
+loop = true

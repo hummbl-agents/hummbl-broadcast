@@ -1,0 +1,30 @@
+# Real MiniMax config — REQUIRES MINIMAX_API_KEY env var.
+# Adjust cost caps to your budget before running.
+
+# Top-level keys
+brand_overlay_path = ""
+prompts_path = "examples/prompts.jsonl"
+receipts_path = "receipts.jsonl"
+dry_run = true   # start in dry_run; flip to false after benchmarks pass
+
+[adapter]
+name = "minimax-h3-max"
+base_url = "https://api.minimax.io"
+poll_interval_seconds = 10.0
+request_timeout_seconds = 60.0
+
+[cost]
+max_cost_per_hour_usd = 5.0    # ~72 5-sec clips/hour at H3 Max 480P
+max_cost_per_day_usd = 50.0    # ~720 5-sec clips/day
+max_inflight_tasks = 20        # under API's 30-task ceiling
+
+[buffer]
+min_buffer_seconds = 60.0
+target_buffer_seconds = 180.0
+clip_reuse_max = 3
+
+[publisher]
+mode = "rtmp"
+output_dir = "/tmp/hummbl-broadcast"
+# rtmp_url = "rtmp://a.rtmp.youtube.com/live2"
+# rtmp_key = "your-youtube-stream-key"

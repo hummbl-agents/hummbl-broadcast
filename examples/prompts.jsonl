@@ -1,0 +1,6 @@
+# One JSON Prompt per line. Lines starting with # are ignored.
+{"id": "intro-01", "text": "Aerial drone shot over a forest at golden hour, camera slowly descending", "tier": "MiniMax-H3-Max-480P", "resolution": "480P", "duration_seconds": 5, "priority": 5}
+{"id": "intro-02", "text": "Time-lapse of clouds rolling over snow-capped mountains, cinematic color grade", "tier": "MiniMax-H3-Max-480P", "resolution": "480P", "duration_seconds": 5, "priority": 5}
+{"id": "loop-01", "text": "Abstract data visualization: glowing nodes connecting in a network, deep blue background", "tier": "MiniMax-H3-Max-480P", "resolution": "480P", "duration_seconds": 5, "priority": 1}
+{"id": "loop-02", "text": "Slow pan across a holographic HUMMBL logo floating in space, soft particles drifting", "tier": "MiniMax-H3-Max-480P", "resolution": "480P", "duration_seconds": 5, "priority": 2}
+{"id": "loop-03", "text": "Macro shot of a vinyl record spinning, warm amber light, shallow depth of field", "tier": "MiniMax-H3-Max-480P", "resolution": "480P", "duration_seconds": 5, "priority": 0}
