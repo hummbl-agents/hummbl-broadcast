@@ -25,6 +25,6 @@ clip_reuse_max = 3
 
 [publisher]
 mode = "rtmp"
-output_dir = "/tmp/hummbl-broadcast"
+output_dir = "./out/live"
 # rtmp_url = "rtmp://a.rtmp.youtube.com/live2"
 # rtmp_key = "your-youtube-stream-key"

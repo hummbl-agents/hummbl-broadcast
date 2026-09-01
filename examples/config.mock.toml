@@ -24,5 +24,5 @@ clip_reuse_max = 3
 
 [publisher]
 mode = "file"
-output_dir = "/tmp/hummbl-broadcast-mock"
+output_dir = "./out/mock"
 loop = true
