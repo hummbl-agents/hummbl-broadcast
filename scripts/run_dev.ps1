@@ -1,28 +1,32 @@
 # scripts/run_dev.ps1 — Anvil-compatible dev runner (Windows)
 # Usage: powershell -ExecutionPolicy Bypass -File scripts\run_dev.ps1
 $ErrorActionPreference = "Stop"
-Set-Location $PSScriptRoot\..
-Remove-Item receipts.mock.jsonl -ErrorAction SilentlyContinue
-Remove-Item C:\hummbl-broadcast-mock -Recurse -Force -ErrorAction SilentlyContinue
+Set-Location (Split-Path -Parent $PSCommandPath) | Split-Path -Parent
+$root = (Get-Location).Path
+Write-Host "Working in: $root"
 
-$job = Start-Job -ScriptBlock {
-    Set-Location C:\Users\Owner\PROJECTS\hummbl-broadcast
-    & .venv\Scripts\python.exe -m hummbl_broadcast.daemon --config examples\config.mock.toml
-}
-Start-Sleep -Seconds 4
-Stop-Job $job -ErrorAction SilentlyContinue
-Wait-Job $job -ErrorAction SilentlyContinue | Out-Null
-Remove-Job $job -Force -ErrorAction SilentlyContinue
+Remove-Item "$root\receipts.mock.jsonl" -ErrorAction SilentlyContinue
+Remove-Item "$root\out\mock" -Recurse -Force -ErrorAction SilentlyContinue
+
+$proc = Start-Process -FilePath ".venv\Scripts\python.exe" -ArgumentList "-m","hummbl_broadcast.daemon","--config","examples\config.mock.toml" -WorkingDirectory $root -PassThru -NoNewWindow
+Start-Sleep -Seconds 3
+Stop-Process $proc -Force -ErrorAction SilentlyContinue
+Start-Sleep -Seconds 1
 
 Write-Host "---RECEIPTS---"
-if (Test-Path receipts.mock.jsonl) {
-    Get-Content receipts.mock.jsonl | ForEach-Object {
+$receiptsPath = "$root\receipts.mock.jsonl"
+if (Test-Path $receiptsPath) {
+    $lines = Get-Content $receiptsPath
+    Write-Host "  Total: $($lines.Count) lines"
+    $lines | Select-Object -First 20 | ForEach-Object {
         $obj = $_ | ConvertFrom-Json
-        Write-Host ("  {0,-12} prompt={1} task={2}" -f $obj.event, $obj.prompt_id, $obj.task_id)
+        Write-Host ("    {0,-12} prompt={1}" -f $obj.event, $obj.prompt_id)
     }
 } else {
     Write-Host "  (no receipts)"
 }
+
 Write-Host "---FILES---"
-$files = Get-ChildItem C:\hummbl-broadcast-mock -ErrorAction SilentlyContinue
-Write-Host "  $($files.Count) files in C:\hummbl-broadcast-mock"
+$outDir = "$root\out\mock"
+$files = Get-ChildItem $outDir -ErrorAction SilentlyContinue
+Write-Host "  $($files.Count) files in $outDir"
