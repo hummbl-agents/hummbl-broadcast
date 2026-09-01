@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import tempfile
 from pathlib import Path
 
 import tomllib  # py3.11+
@@ -31,10 +32,16 @@ class BufferConfig(BaseModel):
 
 class PublisherConfig(BaseModel):
     mode: str = "file"  # file | rtmp
-    output_dir: str = "/tmp/hummbl-broadcast"
+    output_dir: str = str(Path(tempfile.gettempdir()) / "hummbl-broadcast")
     rtmp_url: str | None = None
     rtmp_key: str | None = None
     loop: bool = True
+
+
+class KillSwitchConfig(BaseModel):
+    """Cooperative shutdown sentinel. Path defaults to the platform-correct temp dir."""
+
+    sentinel_path: str = str(Path(tempfile.gettempdir()) / "hummbl-broadcast.kill")
 
 
 class Config(BaseModel):
@@ -42,6 +49,7 @@ class Config(BaseModel):
     cost: CostGovernorConfig = Field(default_factory=CostGovernorConfig)
     buffer: BufferConfig = Field(default_factory=BufferConfig)
     publisher: PublisherConfig = Field(default_factory=PublisherConfig)
+    kill_switch: KillSwitchConfig = Field(default_factory=KillSwitchConfig)
     brand_overlay_path: str | None = None
     prompts_path: str = "examples/prompts.jsonl"
     receipts_path: str = "receipts.jsonl"

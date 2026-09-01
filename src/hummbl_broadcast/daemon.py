@@ -43,7 +43,7 @@ class Daemon:
         self.cfg = cfg
         self.queue: PromptQueue = PromptQueue()
         self.cost = CostGovernor(cfg.cost)
-        self.kill = KillSwitch(sentinel_path="/tmp/hummbl-broadcast.kill")
+        self.kill = KillSwitch(sentinel_path=cfg.kill_switch.sentinel_path)
         self.receipts = ReceiptWriter(cfg.receipts_path)
         self.adapter: VideoAdapter = make_adapter(
             cfg.adapter.name,
