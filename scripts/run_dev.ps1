@@ -1,8 +1,9 @@
 # scripts/run_dev.ps1 — Anvil-compatible dev runner (Windows)
 # Usage: powershell -ExecutionPolicy Bypass -File scripts\run_dev.ps1
 $ErrorActionPreference = "Stop"
-Set-Location (Split-Path -Parent $PSCommandPath) | Split-Path -Parent
-$root = (Get-Location).Path
+$scriptDir = Split-Path -Parent $PSCommandPath
+$root = Split-Path -Parent $scriptDir
+Set-Location $root
 Write-Host "Working in: $root"
 
 Remove-Item "$root\receipts.mock.jsonl" -ErrorAction SilentlyContinue
