@@ -1,0 +1,57 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-and-smoke:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Install dependencies
+        run: uv pip install --system -e ".[dev]"
+
+      - name: Run pytest
+        run: pytest -q
+
+      - name: Run cross-platform smoke
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            powershell -ExecutionPolicy Bypass -File scripts/run_dev.ps1
+          else
+            ./scripts/run_dev.sh
+          fi
+
+      - name: Verify receipts + files
+        shell: bash
+        run: |
+          set -e
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            RECEIPTS="receipts.mock.jsonl"
+          else
+            RECEIPTS="receipts.mock.jsonl"
+          fi
+          test -f "$RECEIPTS" || (echo "FAIL: no receipts file" && exit 1)
+          LINES=$(wc -l < "$RECEIPTS")
+          echo "Receipt lines: $LINES"
+          [ "$LINES" -ge 16 ] || (echo "FAIL: expected >=16 receipt lines, got $LINES" && exit 1)
+          grep -q '"event":"shutdown"' "$RECEIPTS" || (echo "FAIL: no shutdown receipt" && exit 1)
+          echo "PASS: receipts + shutdown verified"
