@@ -26,9 +26,13 @@ class FilePublisher:
     async def publish(self, clip_path: Path) -> None:
         # For skeleton we just symlink/copy. Real impl appends to a rolling concat.
         target = self._dir / clip_path.name
+        source = clip_path.resolve(strict=True)
+        # The daemon composes directly into this directory. Preserve that frame.
+        if target.resolve() == source:
+            return
         if target.exists():
             target.unlink()
-        target.symlink_to(clip_path.resolve())
+        target.symlink_to(source)
 
     async def aclose(self) -> None:
         pass
