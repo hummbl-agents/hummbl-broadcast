@@ -31,7 +31,7 @@ Key invariants:
 
 Skeleton. **No real MiniMax calls yet** — adapter is implemented against the documented
 async V2 contract (`POST /v2/video_generation` + `GET /v2/query/video_generation/{task_id}`)
-but requires a `MINIMAX_API_KEY` to actually run. See `docs/benchmarks.md` for what we
+but requires a `MINIMAX_API_KEY` to actually run. See `docs/research/benchmarks.md` for what we
 still need to verify before turning this on for real.
 
 ## Quick start (mock mode)
@@ -77,9 +77,10 @@ src/hummbl_broadcast/
 tests/
   test_*.py
 docs/
-  architecture.md
-  benchmarks.md          # what we need to measure before shipping
-  standards.md           # the contract any impl must meet
+  architecture/architecture.md
+  research/benchmarks.md     # what we need to measure before shipping
+  operations/standards.md    # the contract any impl must meet
+  admission/                 # governed-AI stand-in admission packet
 examples/
   config.mock.toml
   config.minimax.toml
