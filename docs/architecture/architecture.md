@@ -42,7 +42,7 @@ QUEUED ─submit─▶ SUBMITTED ─poll─▶ POLLING ─succeed─▶ READY �
 
 - MiniMax video API is **async-only** by design (POST → poll → download).
 - Generation latency is **seconds to minutes** per 4-15s clip (no published numbers
-  yet — see `benchmarks.md`).
+  yet — see `docs/research/benchmarks.md`).
 - Therefore the pipeline buffers clips ahead of the broadcast clock and replays
   them. Buffer size = `target_buffer_seconds` (default 180s = 3 minutes).
 

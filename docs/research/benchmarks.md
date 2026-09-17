@@ -53,7 +53,7 @@ python -m benchmarks.analyze docs/benchmarks-raw.json > docs/benchmarks-summary.
 
 ## Acceptance gate
 
-`standards.md` cannot move from DRAFT to FINAL until:
+`docs/operations/standards.md` cannot move from DRAFT to FINAL until:
 - [ ] All 6 latency benchmarks above completed
 - [ ] Concurrency test completed with success rate ≥ 95%
 - [ ] At least one human-reviewed quality pass per tier

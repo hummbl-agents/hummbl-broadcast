@@ -1,7 +1,7 @@
 # STANDARD-video-broadcast.md (DRAFT)
 
 > **Status:** DRAFT. No real numbers yet. Values below are placeholders that MUST
-> be replaced with measured values from `benchmarks.md` before this becomes a
+> be replaced with measured values from `docs/research/benchmarks.md` before this becomes a
 > binding standard.
 
 ## Scope
@@ -62,5 +62,5 @@ Every clip must be:
 
 ## What we still need to measure
 
-See `benchmarks.md` — we cannot ship to production until we have real numbers
+See `docs/research/benchmarks.md` — we cannot ship to production until we have real numbers
 for latency and quality.
